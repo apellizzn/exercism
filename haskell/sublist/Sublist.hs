@@ -8,9 +8,6 @@ sublist :: (Eq a) => [a] -> [a] -> Sublist
 
 sublist xs ys
   | xs == ys = Equal
-  | length xs > length ys && ys `isInfixOf` xs = Superlist
-  | length ys > length xs && xs `isInfixOf` ys = Sublist
+  | ys `isInfixOf` xs = Superlist
+  | xs `isInfixOf` ys = Sublist
   | otherwise = Unequal
-  
-
-
