@@ -4,18 +4,16 @@ module Raindrops (convert) where
     import Data.Monoid
 
     convert :: Integer -> String
-
     convert number
       | null converted = show number
       | otherwise = converted
       where converted = pling `mappend` plang `mappend` plong
-            pling
-              | 3 `elem` factors = "Pling"
-              | otherwise = ""
-            plang
-              | 5 `elem` factors = "Plang"
-              | otherwise = ""
-            plong
-              | 7 `elem` factors = "Plong"
-              | otherwise = ""
+            pling = translate 3 "Pling" factors
+            plang = translate 5 "Plang" factors
+            plong = translate 7 "Plong" factors
             factors = primeFactors number
+
+    translate :: Integer -> String -> [Integer] -> String
+    translate digit word factors
+      | digit `elem` factors = word
+      | otherwise = ""
