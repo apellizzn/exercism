@@ -32,15 +32,15 @@ module Robot
     where opposite = (fromEnum w + 2) `mod` 4
 
   simulate :: Robot -> Path -> Robot
-  simulate r [] = r
-  simulate r (s:ss) = case s of
-    'R' -> simulate' $ withSameCoordinates (turnRight currentBearing)
-    'L' -> simulate' $ withSameCoordinates (turnLeft  currentBearing)
-    'A' -> simulate' $ advance r
-    where
-      simulate' = flip simulate ss
-      withSameCoordinates = flip mkRobot $ coordinates r
-      currentBearing = bearing r
+  simulate = foldl transform
+     where
+       transform rob x = case x of
+         'R' -> mkRobot (turnRight currentBearing) currentCoordinates
+         'L' -> mkRobot (turnLeft currentBearing) currentCoordinates
+         _   -> advance rob
+         where
+           currentCoordinates = coordinates rob
+           currentBearing = bearing rob
 
   xFor :: Robot -> Integer
   xFor r = case bearing r of
