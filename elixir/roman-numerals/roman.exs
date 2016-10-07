@@ -26,13 +26,13 @@ defmodule Roman do
   end
 
   defp exit_or_lookup(0), do: nil
-  defp exit_or_lookup(index), do: lookup_lt_eq(index)
+  defp exit_or_lookup(rest), do: lookup_lt_eq(rest)
 
-  defp lookup_lt_eq(index) do
-    key = Enum.min_by(Map.keys(@digits), &diffrence_from(index, &1))
-    {Map.get(@digits, key), index - key}
+  defp lookup_lt_eq(rest) do
+    key = Enum.min_by(Map.keys(@digits), &closer_to(rest, &1))
+    {Map.get(@digits, key), rest - key}
   end
 
-  defp diffrence_from(index, x) when x > index, do: index
-  defp diffrence_from(index, x), do: index - x
+  defp closer_to(index, x) when x > index, do: index
+  defp closer_to(index, x), do: index - x
 end
